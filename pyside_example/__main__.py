@@ -1,4 +1,3 @@
-from pyside_example.app import PySide6Example
+from pyside_example.app import run
 
-if __name__ == '__main__':
-    PySide6Example().run()
+run()
