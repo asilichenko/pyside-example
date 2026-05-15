@@ -1,11 +1,11 @@
 from pathlib import Path
 
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtCore import QFile
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QWidget
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-UI_DIR = PROJECT_ROOT / 'view'
+ROOT = Path(__file__).parent.parent
+UI_DIR = ROOT / 'resources/ui'
 
 
 class BaseWindow(QMainWindow):
@@ -31,12 +31,13 @@ class BaseWindow(QMainWindow):
     # Private helpers
     # ------------------------------------------------------------------
 
-    def _load_ui(self, path: Path) -> QWidget:
+    @staticmethod
+    def _load_ui(path: Path) -> QWidget:
         if not path.exists():
             raise FileNotFoundError(f"UI file not found: {path}")
 
         ui_file = QFile(str(path))
-        if not ui_file.open(QIODevice.ReadOnly):
+        if not ui_file.open(QFile.OpenModeFlag.ReadOnly):
             raise RuntimeError(f"Cannot open UI file: {path}")
 
         loader = QUiLoader()
@@ -48,6 +49,12 @@ class BaseWindow(QMainWindow):
                 f"QUiLoader failed to load: {path}\n{loader.errorString()}"
             )
 
+        return widget
+
+    def _find_widget[T](self, widget_type: type[T], name: str) -> T:
+        widget = self._ui.findChild(widget_type, name)
+        if widget is None:
+            raise RuntimeError(f"Widget '{name}' not found in UI")
         return widget
 
     # ------------------------------------------------------------------
