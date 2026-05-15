@@ -1,7 +1,7 @@
 import logging
 
-from controllers.main_window_controller import MainWindowController
-from ui.base_window import BaseWindow
+from controllers import MainWindowController
+from ui import BaseWindow
 
 logger = logging.getLogger(__name__)
 

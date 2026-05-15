@@ -53,3 +53,7 @@ def logging_config(level=logging.DEBUG):
     # debug_log_handler.setLevel(logging.DEBUG)
     # debug_log_handler.setFormatter(formatter)
     # root_logger.addHandler(debug_log_handler)
+
+
+if __name__ == '__main__':
+    run()
