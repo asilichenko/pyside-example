@@ -168,3 +168,6 @@ pyside6-rcc resources.qrc -o pyside_example/resources_rc.py
 ```
 import pyside_example.resources_rc  # після цього :/ шляхи працюють
 ```
+
+# References
+- [Python Package Structure](https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6)
