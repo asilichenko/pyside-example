@@ -1,9 +1,12 @@
 import logging
 import sys
+from logging.handlers import RotatingFileHandler
 
 from PySide6.QtWidgets import QApplication
 
-from ui.main_window import MainWindow
+from pyside_example.ui import MainWindow
+from pyside_example.controllers import MainWindowController
+from pyside_example.paths import LOGS
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +20,7 @@ def run() -> None:
 
     try:
         main_wnd = MainWindow()
+        _ = MainWindowController(main_wnd)
     except Exception:
         logger.exception("Failed to start")  # автоматично додає traceback
         raise
@@ -44,11 +48,13 @@ def logging_config(level=logging.DEBUG):
     console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
 
-    # err_log_handler: logging.FileHandler = RotatingFileHandler("logs/error.log", maxBytes=1_000_000, backupCount=3)
-    # err_log_handler.setLevel(logging.ERROR)
-    # err_log_handler.setFormatter(formatter)
-    # root_logger.addHandler(err_log_handler)
-    #
+    LOGS.mkdir(exist_ok=True)
+
+    err_log_handler: logging.FileHandler = RotatingFileHandler(LOGS / "error.log", maxBytes=1_000_000, backupCount=3)
+    err_log_handler.setLevel(logging.ERROR)
+    err_log_handler.setFormatter(formatter)
+    root_logger.addHandler(err_log_handler)
+
     # debug_log_handler: logging.FileHandler = RotatingFileHandler("logs/debug.log", maxBytes=1_000_000, backupCount=3)
     # debug_log_handler.setLevel(logging.DEBUG)
     # debug_log_handler.setFormatter(formatter)
