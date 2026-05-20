@@ -169,5 +169,25 @@ pyside6-rcc resources.qrc -o pyside_example/resources_rc.py
 import pyside_example.resources_rc  # після цього :/ шляхи працюють
 ```
 
+## Для чого `__all__`
+
+`__all__` — явно визначає що експортується при `from package import *`.
+
+```
+# без __all__
+from pyside_example.ui.dispatching import *  # імпортує ВСЕ, включно з logging, threading і т.д.
+
+# з __all__
+__all__ = ["ClickDispatcher", "acquiring"]
+from pyside_example.ui.dispatching import *  # імпортує тільки ці два
+```
+
+Але `import *` — погана практика сама по собі, тому `__all__` для цього майже не потрібен.
+
+Реальна користь `__all__` — документація і підказки в IDE: дивлячись на `__init__.py` одразу видно що є публічним, а що внутрішнє. 
+Але це конвенція, не захист — нічого не заважає імпортувати напряму з файлу.
+
+Для простого проєкту `__all__` — зайве. Достатньо просто реекспортувати в `__init__.py`.
+
 # References
 - [Python Package Structure](https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6)
